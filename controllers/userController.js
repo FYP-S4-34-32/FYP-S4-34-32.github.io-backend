@@ -38,6 +38,7 @@ const loginUser = async (req, res) => {
     // -> so we can destructure the request body and obtain the email and password value
 
     const {email, password} = req.body
+    console.log("loginUser, req.body:", req.body)
 
     try {
         // invoke login function and store return value(user document)
