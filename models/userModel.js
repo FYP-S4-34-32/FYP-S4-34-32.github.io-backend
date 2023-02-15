@@ -216,6 +216,10 @@ userSchema.statics.updateInfo = async function(email, contact) {
     // console.log(contact.match(/^[0-9]+$/))
     // console.log(contact)
     // console.log(contact.match(/^[8-9][0-9]*$/))
+    // check if contact is null or undefined
+    if (contact == null) {
+        throw Error("Contact info is empty, please enter your number")
+    }
 
     // validate contact info, if it contains only 8 digits that begins with 8 or 9
     if (contact.match(/^[0-9]+$/) === null || contact.match(/^[8-9][0-9]*$/) === null) {  

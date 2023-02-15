@@ -6,6 +6,7 @@
 const express = require('express') // express app
 const mongoose = require('mongoose') // mongoose package for mongodb
 require('dotenv').config() // fetch env variables
+const cors = require('cors')
 
 const userRoutes = require('./routes/user') // user routes
 const projectRoutes = require('./routes/project') // project routes
@@ -15,6 +16,7 @@ const assignmentRoutes = require('./routes/assignment') // assignment routes
 
 // start up express app
 const app = express()
+app.use(cors())
 
 // middleware - fires for every requests that comes in
 app.use(express.json()) // looks for body in the data and attaches it to the request object to allow access to the request handlers
@@ -37,7 +39,7 @@ app.use('/api/assignment', assignmentRoutes) // any request to /api/assignment w
 mongoose.connect(process.env.MONGO_URI)
         .then(() => {
             // only starts listening when database is connected
-            app.listen(process.env.PORT, () => {
+            app.listen(process.env.PORT || 4000, () => {
                 console.log('Connected to MongoDB and Listening on port', process.env.PORT);
             });
         })
