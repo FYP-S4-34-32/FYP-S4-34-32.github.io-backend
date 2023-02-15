@@ -7,7 +7,6 @@ const express = require('express') // express app
 const mongoose = require('mongoose') // mongoose package for mongodb
 require('dotenv').config() // fetch env variables
 const cors = require('cors')
-const path = require('path')
 
 const userRoutes = require('./routes/user') // user routes
 const projectRoutes = require('./routes/project') // project routes
@@ -22,17 +21,11 @@ app.use(cors())
 // middleware - fires for every requests that comes in
 app.use(express.json()) // looks for body in the data and attaches it to the request object to allow access to the request handlers
 
-app.use(express.static(path.join(__dirname, 'public')))
-
 // logger - for us to see the request path and method in the console
 app.use((req, res, next) => {
     console.log(req.path, req.method) // logs the request path and method
 
     next() // moves on to the next middleware -> must be called otherwise the call stops here
-})
-
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 })
 
 // register route handler - reacts to requests sent in
