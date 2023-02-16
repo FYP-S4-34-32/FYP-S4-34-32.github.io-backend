@@ -59,18 +59,15 @@ const createAssignment = async (req, res) => {
     if (!threshold) {
         emptyFields.push('threshold')
     }
-    if (start_date > end_date) { // startDate later than endDate
-        console.log("error -> Start Date later than End Date")
+    if (start_date > end_date) { // startDate later than endDate 
         emptyFields.push('startDate')
         emptyFields.push('endDate')
     }
-    if (threshold < 1) { // threshold less than 1
-        console.log("error -> threshold less than 1")
+    if (threshold < 1) { // threshold less than 1 
         emptyFields.push('threshold')
     }
     const checkTitle = await Assignment.findOne({title}) // find Assignment object with the given title to check for duplicate entry
-    if (checkTitle) {
-        console.log("error -> Duplicate Assignment Title entries")
+    if (checkTitle) { 
         emptyFields.push('title')
     }
     if (emptyFields.length > 0) { 
@@ -220,8 +217,7 @@ const updateProjects = async (req, res) => {
     const { id } = req.params
 
     const { projects } = req.body
-
-    console.log("projects:", projects)
+ 
     // check whether id is a mongoose type object
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: "Invalid Assignment ID"})
@@ -240,8 +236,6 @@ const updateProjects = async (req, res) => {
             project.active = false
 
             await project.save()
-
-            console.log(project.title, "project.assignment:", project.assignment)
         }
 
         // reset assignment.projects
@@ -250,8 +244,6 @@ const updateProjects = async (req, res) => {
         // populate assignment.projects
         assignment.set({projects})
         await assignment.save()
-
-        console.log("assignment.projects after re-populating: ", assignment.projects)
 
         // loop through the updated list of projects
         for (var i = 0; i < assignment.projects.length; i++) {
@@ -263,8 +255,7 @@ const updateProjects = async (req, res) => {
             if (assignment.active === true) {
                 project.active = true
             }
-            await project.save()
-            console.log(project.title, "project.assignment:", project.assignment)
+            await project.save() 
         }
         res.status(200).json( assignment )
     } catch (error) { // catch any error that pops up during the process
@@ -469,8 +460,7 @@ const autoAssign = async (req, res) => {
     let tier // refer to tier list at the bottom
 
     // begin assigning
-    for (var i = 0; i < allProjects.length; i++) { // loop through allProjects array
-        console.log("Processing ", allProjects[i].title, "with priority ", priority)
+    for (var i = 0; i < allProjects.length; i++) { // loop through allProjects array 
     
         // get project title, skills, number of people required, and the employees who are already assigned to it
         const { _id: projectID, title, skills: projectSkills, threshold: projectThreshold, assigned_to } = allProjects[i]
@@ -743,8 +733,7 @@ const assignFunction = async (tier, employees, projectThreshold, threshold, proj
 
     const project = await Project.findById({ _id: projectID })
 
-    if (!project) {
-        console.log("Project cannot be found")
+    if (!project) { 
         throw Error("Project cannot be found")
     }
 
@@ -752,8 +741,7 @@ const assignFunction = async (tier, employees, projectThreshold, threshold, proj
 
     // loop through employees
     for (var i = 0; i < employees.length; i++) {
-        if (projectThreshold === currentEmployeeLength) { // number of people required for the project fulfilled
-            console.log("number of people required for the project fulfilled")
+        if (projectThreshold === currentEmployeeLength) { // number of people required for the project fulfilled 
             break
         }
 
@@ -782,8 +770,7 @@ const assignFunction = async (tier, employees, projectThreshold, threshold, proj
             // console.log("assignmentExistsInEmployee: ", assignmentExistsInEmployee)
         }
 
-        if (assignmentExistsInEmployee && project_assigned[assignmentIndex].projects.length === threshold) {
-            console.log(employee.email, "already has max number of projects")
+        if (assignmentExistsInEmployee && project_assigned[assignmentIndex].projects.length === threshold) { 
             continue // to next employee
         }
 
@@ -816,8 +803,7 @@ const assignFunction = async (tier, employees, projectThreshold, threshold, proj
 
         // Employee
         // if assigment does not exist yet
-        if (!assignmentExistsInEmployee) {
-            console.log("assignment does not exist in employee")
+        if (!assignmentExistsInEmployee) { 
             // set assignment id
             employee.project_assigned = [...employee.project_assigned, { assignment_id: assignmentID, projects: [] }]
             assignmentIndex = 0 // set assignment index
@@ -826,10 +812,7 @@ const assignFunction = async (tier, employees, projectThreshold, threshold, proj
         // assign to employee
         employee.project_assigned[assignmentIndex].projects = [...employee.project_assigned[assignmentIndex].projects, project.title]
         await employee.save()
-
-        console.log(email, "assigned to", project.title, "with tier", tier)
-    }
-    console.log()
+    } 
 }
 
 // process employees based on choice and tier
@@ -996,10 +979,8 @@ const updateStats = async (_id) => {
                 break // exit loop
             }
         }
-
-        console.log(employee.email, "assigned to: ")
-        for (var j = 0; j < employeeProjects.length; j++) {
-            console.log(employeeProjects[j])
+ 
+        for (var j = 0; j < employeeProjects.length; j++) { 
             if (employeeProjects[j] === firstChoice) {
                 assignedFirst.push(employee.email)
             } else if (employeeProjects[j] === secondChoice) {
@@ -1009,8 +990,7 @@ const updateStats = async (_id) => {
             } else {
                 assignedNotSelected.push(employee.email)
             }
-        }
-        console.log()
+        } 
     }
 
     // track number of employees assigned
@@ -1022,9 +1002,6 @@ const updateStats = async (_id) => {
     for (var i = 0; i < projects.length; i++) {
         const project = await Project.findOne({ title: projects[i] })
         const { threshold, assigned_to } = project
-
-        console.log("inside updateStats, threshold: ", threshold)
-        console.log("inside updateStats, assigned_to: ", assigned_to)
 
         if (assigned_to.employees.length === threshold) {
             threshold_reached.push(project)
