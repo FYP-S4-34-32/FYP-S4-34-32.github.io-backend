@@ -131,8 +131,6 @@ userSchema.statics.signup = async function(name, email, password, confirmPasswor
     // save user to the database
     if (role === "Employee" || role === "Admin") {
         const user = await this.create({ name, email, password: hash, role, organisation_id })
-    
-        console.log(user)
 
         // returns the user document we just created
         return user
@@ -140,8 +138,6 @@ userSchema.statics.signup = async function(name, email, password, confirmPasswor
 
     if (role === "Super Admin") {
         const user = await this.create({ name, email, password: hash, role })
-    
-        console.log(user)
 
         // returns the user document we just created
         return user
@@ -328,8 +324,7 @@ userSchema.statics.changePassword = async function(email, currentPassword, newPa
     }
 
     // check if current password matches
-    const match = await bcrypt.compare(currentPassword, user.password)
-    console.log(match)
+    const match = await bcrypt.compare(currentPassword, user.password) 
 
     if (!match) {
         throw Error("Invalid current password")
