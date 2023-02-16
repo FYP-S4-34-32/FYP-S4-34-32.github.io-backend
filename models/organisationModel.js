@@ -48,8 +48,7 @@ organisationSchema.statics.getOrganisationSkills = async function(organisation_i
 }
 
 // static method to update organisation skills 
-organisationSchema.statics.updateOrganisationSkills = async function(organisation_id, organisation_skills) { 
-    console.log("org skills: ", organisation_skills);
+organisationSchema.statics.updateOrganisationSkills = async function(organisation_id, organisation_skills) {  
 
     const org = await this.findOneAndUpdate({organisation_id}, {organisation_skills});
     
