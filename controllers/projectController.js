@@ -98,8 +98,7 @@ const createProject = async (req, res) => {
     for (var i = 0; i < unique.length; i++) {
         const skill = unique[i]
         const competency = projectCompetencyWithoutDummy[i]
-        skills[i] = {skill, competency}
-        console.log(skills)
+        skills[i] = {skill, competency} 
     }
   
     // add to the database
@@ -223,8 +222,7 @@ const updateProject = async (req, res) => {
     for (var i = 0; i < unique.length; i++) {
         const skill = unique[i]
         const competency = projectCompetencyWithoutDummy[i]
-        skills[i] = {skill, competency}
-        console.log(skills)
+        skills[i] = {skill, competency} 
     }
 
     // get the document
