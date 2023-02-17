@@ -23,8 +23,6 @@ app.use(express.json()) // looks for body in the data and attaches it to the req
 
 // logger - for us to see the request path and method in the console
 app.use((req, res, next) => {
-    console.log(req.path, req.method) // logs the request path and method
-
     next() // moves on to the next middleware -> must be called otherwise the call stops here
 })
 

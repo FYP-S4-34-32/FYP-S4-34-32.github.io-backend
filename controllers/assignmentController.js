@@ -168,7 +168,6 @@ const updateEmployees = async (req, res) => {
 
     const { employees } = req.body
 
-    // console.log("employees:", employees)
     // check whether id is a mongoose type object
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: "Invalid Assignment ID"})
@@ -185,7 +184,6 @@ const updateEmployees = async (req, res) => {
             // reset the current_assignment field for every existing employee assigned
             employee.current_assignment = null
             await employee.save()
-            // console.log(employee.email, "employee.current_assignment:", employee.current_assignment)
         }
 
         // reset assignment.employees
@@ -195,8 +193,6 @@ const updateEmployees = async (req, res) => {
         assignment.set({employees})
         await assignment.save()
 
-        // console.log("assignment.employees after re-populating: ", assignment.employees)
-
         // loop through the updated list of employees
         for (var i = 0; i < assignment.employees.length; i++) {
             const employee = await User.findOne({ email: assignment.employees[i].email })
@@ -204,7 +200,6 @@ const updateEmployees = async (req, res) => {
             // set the current_assignment field for the updated employees
             employee.current_assignment = assignment._id
             await employee.save()
-            // console.log(employee.email, "employee.current_assignment:", employee.current_assignment)
         }
         res.status(200).json({ assignment })
     } catch (error) { // catch any error that pops up during the process
@@ -729,8 +724,6 @@ const compareCompetency = (projectSkillOnly, projectCompetencyOnly, matchingSkil
 
 // updated assign function
 const assignFunction = async (tier, employees, projectThreshold, threshold, projectID, assignmentID) => {
-    // console.log("inside assignFunction")
-
     const project = await Project.findById({ _id: projectID })
 
     if (!project) { 
@@ -753,11 +746,8 @@ const assignFunction = async (tier, employees, projectThreshold, threshold, proj
         let assignmentExistsInEmployee
         let assignmentIndex
 
-        // console.log("project_assigned: ", project_assigned)
-
         if (project_assigned.length === 0) {
             assignmentExistsInEmployee = false
-            // console.log("assignmentExistsInEmployee: ", assignmentExistsInEmployee)
         } else {
             assignmentExistsInEmployee = false
             for (var j = 0; j < project_assigned.length; j++) {
@@ -767,7 +757,6 @@ const assignFunction = async (tier, employees, projectThreshold, threshold, proj
                     break
                 }
             }
-            // console.log("assignmentExistsInEmployee: ", assignmentExistsInEmployee)
         }
 
         if (assignmentExistsInEmployee && project_assigned[assignmentIndex].projects.length === threshold) { 

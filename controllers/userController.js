@@ -97,8 +97,6 @@ const signupUser = async (req, res) => {
 const getAllUserInfo = async (req, res) => {
     const users = await User.getAllUsers()
 
-    // console.log(users)
-
     res.status(200).json(users)
 }
 

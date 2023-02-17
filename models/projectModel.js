@@ -79,8 +79,6 @@ const projectSchema = new Schema({
 
 // static method to add new skill
 projectSchema.statics.addNewSkill = async function(req) {
-
-    console.log(req.body)
     const { id } = req.params // grab id from the address bar or request
     const { skill, competency } = req.body
 

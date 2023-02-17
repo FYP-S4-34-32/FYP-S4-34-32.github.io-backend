@@ -189,8 +189,6 @@ userSchema.statics.getOneUser = async function(email) {
     // returns the user document except the password field
     const user = await this.findOne({ email }).select('-password')
 
-    // console.log(user)
-
     // user DOES NOT exist
     if (!user) {
         throw Error("No such user")
@@ -209,9 +207,6 @@ userSchema.statics.updateInfo = async function(email, contact) {
         throw Error("No such user")
     } 
 
-    // console.log(contact.match(/^[0-9]+$/))
-    // console.log(contact)
-    // console.log(contact.match(/^[8-9][0-9]*$/))
     // check if contact is null or undefined
     if (contact == null) {
         throw Error("Contact info is empty, please enter your number")
@@ -411,8 +406,6 @@ userSchema.statics.updateResetPasswordToken = async function(email, resetPasswor
         throw Error("Unable to update reset password token")
     }
     
-    // console.log("Reset password token updated for user: ", email)
-    // console.log("updated: ", update)
     return "resetPasswordToken Updated"
 }
 
@@ -432,8 +425,6 @@ userSchema.statics.resetPassword = async function(email, resetPasswordToken, new
 
     // check if token matches
     if (user.resetPasswordToken !== resetPasswordToken) {
-        // console.log("user.resetPasswordToken: ", user.resetPasswordToken)
-        // console.log("resetPasswordToken: ", resetPasswordToken)
         throw Error("Invalid token")
     }
 
@@ -450,8 +441,6 @@ userSchema.statics.resetPassword = async function(email, resetPasswordToken, new
 
     // remove resetPasswordToken
     const removeToken = await this.findOneAndUpdate({ email }, { resetPasswordToken: " " })
-
-    // console.log("Password updated for user: ", removeToken)
 
     return "Password Reset Successful"
 }

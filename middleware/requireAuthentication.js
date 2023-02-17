@@ -38,7 +38,6 @@ const requireAuthentication = async (req, res, next) => { // request, response, 
         next() // fires the next handler function
 
     } catch (error) {
-        console.log(error) // log the error in our console
         res.status(401).json({error: 'Request is not authorised'}) // return error message as a response message
     }
 }
