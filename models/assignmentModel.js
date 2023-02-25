@@ -72,6 +72,12 @@ const assignmentSchema = new Schema({
     active: { // check whether assignment phase is still active or not
         type: Boolean,
         default: false // false by default - prep phase before making it active
+    },
+    skills_fulfilled: {
+        type: Number
+    },
+    skills_and_competency_fulfilled: {
+        type: Number
     }
 }, {timestamps: true}); // datetime created and updated
 

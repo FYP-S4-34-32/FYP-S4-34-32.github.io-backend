@@ -1047,6 +1047,10 @@ const projectStats = async (_id) => {
     const assignment = await Assignment.findById({ _id })
     const projects = assignment.projects
 
+    const total_skills = 0
+    const s_fulfilled = 0
+    const sc_fulfilled = 0
+
     // go through each project
     for (var i = 0; i < projects.length; i++) {
         const project = await Project.findOne({ title: projects[i] })
@@ -1060,6 +1064,8 @@ const projectStats = async (_id) => {
             projectSkillsOnly.push(projectSkills[j].skill)
             projectCompetencyOnly.push(projectSkills[j].competency)
         }
+
+        total_skills += projectSkillsOnly.length
 
         // percentage of project's skills fulfilled
         const skills_fulfilled = []
@@ -1156,10 +1162,15 @@ const projectStats = async (_id) => {
         project.skills_and_competency_fulfilled = skills_and_competency_fulfilled.length
         project.skills_fulfilled = skills_fulfilled.length
 
-        
-
         await project.save()
+
+        s_fulfilled += skills_fulfilled
+        sc_fulfilled += skills_and_competency_fulfilled
     }
+    
+    assignment.skills_fulfilled = Math.round((s_fulfilled / total_skills * 100) * 100) / 100
+    assignment.skills_and_competency_fulfilled = Math.round((sc_fulfilled / total_skills * 100) * 100) / 100
+    await assignment.save()
 }
 
 // export functions
