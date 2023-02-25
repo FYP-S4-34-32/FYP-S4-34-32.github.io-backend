@@ -1047,9 +1047,9 @@ const projectStats = async (_id) => {
     const assignment = await Assignment.findById({ _id })
     const projects = assignment.projects
 
-    const total_skills = 0
-    const s_fulfilled = 0
-    const sc_fulfilled = 0
+    let total_skills = 0
+    let s_fulfilled = 0
+    let sc_fulfilled = 0
 
     // go through each project
     for (var i = 0; i < projects.length; i++) {
