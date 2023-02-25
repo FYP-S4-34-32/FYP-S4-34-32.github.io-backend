@@ -1164,8 +1164,8 @@ const projectStats = async (_id) => {
 
         await project.save()
 
-        s_fulfilled += skills_fulfilled
-        sc_fulfilled += skills_and_competency_fulfilled
+        s_fulfilled += skills_fulfilled.length
+        sc_fulfilled += skills_and_competency_fulfilled/length
     }
     
     assignment.skills_fulfilled = Math.round((s_fulfilled / total_skills * 100) * 100) / 100
